@@ -7,18 +7,18 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-bold mb-4">BookBorrow</h3>
+            <h3 className="text-lg font-bold mb-4 bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent">BookHaven</h3>
             <p className="text-gray-600 mb-4">
-              Your online library service for easy book borrowing and returns.
+              Connecting communities through shared books. Managing small communal libraries and book-sharing spots along roads and private driveways.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-500 hover:text-primary">
+              <a href="#" className="text-gray-500 hover:text-amber-600">
                 <i className="fab fa-facebook-f"></i>
               </a>
-              <a href="#" className="text-gray-500 hover:text-primary">
+              <a href="#" className="text-gray-500 hover:text-amber-600">
                 <i className="fab fa-twitter"></i>
               </a>
-              <a href="#" className="text-gray-500 hover:text-primary">
+              <a href="#" className="text-gray-500 hover:text-amber-600">
                 <i className="fab fa-instagram"></i>
               </a>
             </div>
@@ -29,7 +29,7 @@ export const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <div 
-                  className="text-gray-600 hover:text-primary cursor-pointer"
+                  className="text-gray-600 hover:text-amber-600 cursor-pointer"
                   onClick={() => navigate('/')}
                 >
                   Home
@@ -37,7 +37,7 @@ export const Footer = () => {
               </li>
               <li>
                 <div 
-                  className="text-gray-600 hover:text-primary cursor-pointer"
+                  className="text-gray-600 hover:text-amber-600 cursor-pointer"
                   onClick={() => navigate('/books')}
                 >
                   Browse Books
@@ -45,7 +45,7 @@ export const Footer = () => {
               </li>
               <li>
                 <div 
-                  className="text-gray-600 hover:text-primary cursor-pointer"
+                  className="text-gray-600 hover:text-amber-600 cursor-pointer"
                   onClick={() => navigate('/dashboard')}
                 >
                   My Dashboard
@@ -58,13 +58,13 @@ export const Footer = () => {
             <h3 className="text-lg font-bold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary">How It Works</a>
+                <a href="#" className="text-gray-600 hover:text-amber-600">How It Works</a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary">FAQ</a>
+                <a href="#" className="text-gray-600 hover:text-amber-600">FAQ</a>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-primary">Help Center</a>
+                <a href="#" className="text-gray-600 hover:text-amber-600">Help Center</a>
               </li>
             </ul>
           </div>
@@ -82,7 +82,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center">
                 <i className="fas fa-envelope mr-2"></i>
-                <span>contact@bookborrow.com</span>
+                <span>contact@bookhaven.com</span>
               </li>
             </ul>
           </div>
@@ -90,16 +90,16 @@ export const Footer = () => {
         
         <div className="border-t border-gray-200 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-600 text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} BookBorrow. All rights reserved.
+            &copy; {new Date().getFullYear()} BookHaven. Connecting communities through shared libraries.
           </p>
           <div className="flex space-x-6">
-            <a href="#" className="text-gray-600 hover:text-primary text-sm">
+            <a href="#" className="text-gray-600 hover:text-amber-600 text-sm">
               Privacy Policy
             </a>
-            <a href="#" className="text-gray-600 hover:text-primary text-sm">
+            <a href="#" className="text-gray-600 hover:text-amber-600 text-sm">
               Terms of Service
             </a>
-            <a href="#" className="text-gray-600 hover:text-primary text-sm">
+            <a href="#" className="text-gray-600 hover:text-amber-600 text-sm">
               Cookie Policy
             </a>
           </div>

@@ -73,10 +73,13 @@ export const Header = ({ user, isLoading }: HeaderProps) => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center">
           <div 
-            className="text-2xl font-bold text-primary cursor-pointer" 
+            className="text-2xl font-bold cursor-pointer" 
             onClick={() => navigate('/')}
           >
-            <i className="fas fa-book-open mr-2"></i>BookBorrow
+            <span className="bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent">
+              <i className="fas fa-home mr-2"></i>
+              BookHaven
+            </span>
           </div>
         </div>
         
