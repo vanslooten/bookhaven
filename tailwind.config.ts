@@ -41,6 +41,13 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        status: {
+          available: "#22c55e", // Green
+          unavailable: "#ef4444", // Red
+          overdue: "#f97316", // Orange
+          returned: "#3b82f6", // Blue
+          pending: "#a855f7", // Purple
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

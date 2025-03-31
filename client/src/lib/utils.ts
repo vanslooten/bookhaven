@@ -117,12 +117,12 @@ export function getAvailabilityBadge(book: Book): { text: string; class: string 
   if (isBookAvailable(book)) {
     return {
       text: 'Available',
-      class: 'bg-status-available text-white'
+      class: 'bg-status-available/50 text-white backdrop-blur-sm'
     };
   } else {
     return {
       text: 'Unavailable',
-      class: 'bg-status-unavailable text-white'
+      class: 'bg-status-unavailable/50 text-white backdrop-blur-sm'
     };
   }
 }

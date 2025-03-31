@@ -68,7 +68,7 @@ export const BookCard = ({ book, isLoggedIn }: BookCardProps) => {
           />
         </div>
         <div className="absolute top-0 right-0 m-2">
-          <span className={`inline-block ${availabilityClass} text-xs font-bold px-2 py-1 rounded`}>
+          <span className={`inline-block ${availabilityClass} text-xs font-bold px-2 py-1 rounded backdrop-blur-sm`}>
             {availabilityText}
           </span>
         </div>
