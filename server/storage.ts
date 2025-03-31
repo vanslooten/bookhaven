@@ -127,7 +127,7 @@ export class MemStorage implements IStorage {
         isbn: "978-0-452-28423-4",
         genre: "Science Fiction",
         publicationYear: 1949,
-        coverImage: "https://images.unsplash.com/photo-1603289847962-402280402830?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=400&q=80",
+        coverImage: "https://images.unsplash.com/photo-1585377034225-e8b36df5bb8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=400&q=80",
         totalCopies: 4,
         availableCopies: 3,
         pages: 328,

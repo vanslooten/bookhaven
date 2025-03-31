@@ -1,6 +1,7 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 export const Footer = () => {
+  const [_, navigate] = useLocation();
   return (
     <footer className="bg-white border-t border-gray-200 py-8">
       <div className="container mx-auto px-4">
@@ -27,19 +28,28 @@ export const Footer = () => {
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/">
-                  <a className="text-gray-600 hover:text-primary">Home</a>
-                </Link>
+                <div 
+                  className="text-gray-600 hover:text-primary cursor-pointer"
+                  onClick={() => navigate('/')}
+                >
+                  Home
+                </div>
               </li>
               <li>
-                <Link href="/books">
-                  <a className="text-gray-600 hover:text-primary">Browse Books</a>
-                </Link>
+                <div 
+                  className="text-gray-600 hover:text-primary cursor-pointer"
+                  onClick={() => navigate('/books')}
+                >
+                  Browse Books
+                </div>
               </li>
               <li>
-                <Link href="/dashboard">
-                  <a className="text-gray-600 hover:text-primary">My Dashboard</a>
-                </Link>
+                <div 
+                  className="text-gray-600 hover:text-primary cursor-pointer"
+                  onClick={() => navigate('/dashboard')}
+                >
+                  My Dashboard
+                </div>
               </li>
             </ul>
           </div>

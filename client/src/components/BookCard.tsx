@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { borrowBook } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 interface BookCardProps {
   book: Book;
@@ -18,6 +18,7 @@ export const BookCard = ({ book, isLoggedIn }: BookCardProps) => {
   const [isBorrowing, setIsBorrowing] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [_, navigate] = useLocation();
   const { text: availabilityText, class: availabilityClass } = getAvailabilityBadge(book);
 
   const handleBorrow = async () => {
@@ -56,15 +57,16 @@ export const BookCard = ({ book, isLoggedIn }: BookCardProps) => {
   return (
     <Card className="book-card overflow-hidden transition-all duration-300 h-full flex flex-col hover:-translate-y-1 hover:shadow-lg">
       <div className="relative">
-        <Link href={`/books/${book.id}`}>
-          <a className="block">
-            <img
-              src={book.coverImage}
-              alt={`${book.title} cover`}
-              className="w-full h-64 object-cover"
-            />
-          </a>
-        </Link>
+        <div
+          className="block cursor-pointer"
+          onClick={() => navigate(`/books/${book.id}`)}
+        >
+          <img
+            src={book.coverImage}
+            alt={`${book.title} cover`}
+            className="w-full h-64 object-cover"
+          />
+        </div>
         <div className="absolute top-0 right-0 m-2">
           <span className={`inline-block ${availabilityClass} text-xs font-bold px-2 py-1 rounded`}>
             {availabilityText}
@@ -72,15 +74,16 @@ export const BookCard = ({ book, isLoggedIn }: BookCardProps) => {
         </div>
       </div>
       <CardContent className="p-4 flex-grow flex flex-col">
-        <Link href={`/books/${book.id}`}>
-          <a className="hover:text-primary transition-colors">
-            <h3 className="font-bold text-lg mb-1 line-clamp-1">{book.title}</h3>
-          </a>
-        </Link>
+        <div
+          className="hover:text-primary transition-colors cursor-pointer"
+          onClick={() => navigate(`/books/${book.id}`)}
+        >
+          <h3 className="font-bold text-lg mb-1 line-clamp-1">{book.title}</h3>
+        </div>
         <p className="text-sm text-gray-600 mb-2">{book.author}</p>
         <div className="flex items-center mb-3">
-          <Rating value={book.rating} />
-          <span className="ml-1 text-xs text-gray-600">({book.reviewCount} reviews)</span>
+          <Rating value={book.rating || 0} />
+          <span className="ml-1 text-xs text-gray-600">({book.reviewCount || 0} reviews)</span>
         </div>
         <p className="text-sm text-gray-700 line-clamp-2 mb-3">
           {truncateText(book.description, 100)}
