@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { Book } from "@/lib/types";
@@ -128,7 +128,7 @@ export default function Admin() {
   });
 
   // Update form when selected book changes
-  useState(() => {
+  useEffect(() => {
     if (selectedBook) {
       form.reset({
         ...selectedBook,
@@ -153,7 +153,7 @@ export default function Admin() {
         reviewCount: 0,
       });
     }
-  }, [selectedBook]);
+  }, [selectedBook, form]);
 
   // Add book mutation
   const addBookMutation = useMutation({
