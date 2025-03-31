@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { useState, FormEvent, useEffect } from "react";
 import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { Search } from "lucide-react";
 
 interface SearchBarProps {
   className?: string;
@@ -40,9 +41,10 @@ export const SearchBar = ({ className, initialValue = "" }: SearchBarProps) => {
       />
       <button 
         type="submit"
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-primary"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
+        aria-label="Search"
       >
-        <i className="fas fa-search"></i>
+        <Search className="h-4 w-4" />
       </button>
     </form>
   );
