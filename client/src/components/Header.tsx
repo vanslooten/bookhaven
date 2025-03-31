@@ -52,6 +52,8 @@ export const Header = ({ user, isLoading }: HeaderProps) => {
         title: "Logged Out",
         description: "You have been successfully logged out",
       });
+      // Refresh the page to ensure all state is reset
+      window.location.reload();
     },
     onError: () => {
       toast({
