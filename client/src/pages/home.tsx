@@ -26,6 +26,8 @@ export default function Home() {
     const params = new URLSearchParams(location.includes("?") ? location.split("?")[1] : "");
     const searchQuery = params.get("search") || "";
     
+    console.log("URL location changed, extracted search query:", searchQuery);
+    
     // Always update filters to trigger a refetch
     setFilters(prev => ({
       ...prev,
@@ -33,17 +35,18 @@ export default function Home() {
     }));
   }, [location]);
 
-  // Fetch books
+  // Fetch books based on search or filters
   const { data: books = [], isLoading } = useQuery<Book[]>({
     queryKey: [
       // If we have a search term, use the dedicated search endpoint instead
       filters.search ? '/api/search' : '/api/books', 
+      // Simple key-value parameters - one object with essential data only
       filters.search 
         ? { query: filters.search } // For search endpoint
-        : { genre: filters.genre } // For regular books endpoint
+        : { genre: filters.genre }  // For regular books endpoint
     ],
     // The queryFn is handled by our global query client configuration
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false
   });
 
   // Check if user is logged in

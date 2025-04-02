@@ -32,6 +32,8 @@ export const getQueryFn: <T>(options: {
     const url = queryKey[0] as string;
     const queryParams = queryKey[1] as Record<string, any> | undefined;
     
+    console.log("QueryClient processing request:", { url, queryParams });
+    
     let finalUrl = url;
     
     // Handle query parameters if provided

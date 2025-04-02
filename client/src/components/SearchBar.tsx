@@ -23,6 +23,8 @@ export const SearchBar = ({ className, initialValue = "" }: SearchBarProps) => {
     
     if (searchQuery.trim()) {
       const searchTerm = encodeURIComponent(searchQuery.trim());
+      console.log("Submitting search for:", searchTerm);
+      // Clear existing parameters and set only the search parameter
       navigate(`/?search=${searchTerm}`);
     } else {
       // If search is empty, go to home without any parameters

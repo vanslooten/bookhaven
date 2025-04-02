@@ -479,10 +479,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { query } = req.query;
       
       if (!query || typeof query !== 'string') {
+        console.log("Search endpoint called but no query parameter was provided");
         return res.status(400).json({ message: "Search query is required" });
       }
       
+      console.log("********* DIRECT SEARCH ENDPOINT CALLED *********");
       console.log("Direct search endpoint called with query:", query);
+      console.log("Raw request query parameters:", req.query);
       
       const books = await storage.searchBooks(query);
       console.log(`Found ${books.length} books matching direct search query`);

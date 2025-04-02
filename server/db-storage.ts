@@ -95,15 +95,26 @@ export class DatabaseStorage implements IStorage {
   }
 
   async searchBooks(query: string): Promise<Book[]> {
-    const searchTerm = `%${query}%`;
-    return await db.select().from(books).where(
-      or(
-        like(books.title, searchTerm),
-        like(books.author, searchTerm),
-        like(books.description, searchTerm),
-        like(books.genre, searchTerm)
-      )
+    // Convert to lowercase for case-insensitive search
+    const searchTerm = `%${query.toLowerCase()}%`;
+    console.log("Searching for books with searchTerm:", searchTerm);
+    
+    // Debug: log all books first to see what we're searching through
+    const allBooks = await db.select().from(books);
+    console.log("All books in database:", allBooks.map(b => b.title));
+    
+    // Use lower() SQL function to make the search case-insensitive
+    // We'd need to use SQL.raw for case-insensitive search with Drizzle
+    // For now, we'll retrieve all and filter in memory
+    const results = allBooks.filter(book => 
+      book.title.toLowerCase().includes(query.toLowerCase()) ||
+      book.author.toLowerCase().includes(query.toLowerCase()) ||
+      book.description.toLowerCase().includes(query.toLowerCase()) ||
+      book.genre.toLowerCase().includes(query.toLowerCase())
     );
+    
+    console.log(`Found ${results.length} books matching "${query}" after in-memory filtering`);
+    return results;
   }
 
   async createBook(book: InsertBook): Promise<Book> {
