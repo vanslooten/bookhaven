@@ -21,47 +21,27 @@ export default function Home() {
     itemsPerPage: 10,
   });
 
-  // Extract search query from full URL
+  // Extract search query from URL
   useEffect(() => {
-    console.log("HOME: URL location changed:", location);
+    const params = new URLSearchParams(location.includes("?") ? location.split("?")[1] : "");
+    const searchQuery = params.get("search") || "";
     
-    try {
-      // Simple string handling of search params from the entire URL
-      let searchQuery = "";
-      
-      // Handle if we have any search parameters
-      if (location.includes("?")) {
-        const queryPart = location.split("?")[1];
-        console.log("HOME: URL query part:", queryPart);
-        
-        // Parse search query directly with URLSearchParams
-        const params = new URLSearchParams(queryPart);
-        searchQuery = params.get("search") || "";
-        console.log("HOME: Extracted search query:", searchQuery);
-      }
-      
-      // IMPORTANT: Always update filters to trigger a refetch
-      // We need to update filters even when searchQuery is empty (to clear previous searches)
-      console.log("HOME: Setting search filter to:", searchQuery);
-      setFilters(prev => {
-        const newFilters = {
-          ...prev,
-          search: searchQuery,
-        };
-        console.log("HOME: New filters:", newFilters);
-        return newFilters;
-      });
-    } catch (error) {
-      console.error("HOME: Error parsing search params:", error);
-    }
+    // Always update filters to trigger a refetch
+    setFilters(prev => ({
+      ...prev,
+      search: searchQuery,
+    }));
   }, [location]);
 
   // Fetch books
   const { data: books = [], isLoading } = useQuery<Book[]>({
-    queryKey: ['/api/books', {
-      search: filters.search,
-      genre: filters.genre
-    }],
+    queryKey: [
+      // If we have a search term, use the dedicated search endpoint instead
+      filters.search ? '/api/search' : '/api/books', 
+      filters.search 
+        ? { query: filters.search } // For search endpoint
+        : { genre: filters.genre } // For regular books endpoint
+    ],
     // The queryFn is handled by our global query client configuration
     refetchOnWindowFocus: false,
   });

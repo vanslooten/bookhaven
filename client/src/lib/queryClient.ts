@@ -36,12 +36,13 @@ export const getQueryFn: <T>(options: {
     
     // Handle query parameters if provided
     if (queryParams) {
-      console.log("QUERY CLIENT: Raw query params:", queryParams);
-      
       const params = new URLSearchParams();
       for (const [key, value] of Object.entries(queryParams)) {
         if (value !== undefined && value !== null && value !== '') {
-          console.log(`QUERY CLIENT: Adding param ${key}=${value}`);
+          // Make sure we handle the 'query' parameter specially for search
+          if (key === 'query') {
+            console.log(`Adding search query parameter: ${key}=${value}`);
+          }
           params.append(key, value.toString());
         }
       }
@@ -49,13 +50,9 @@ export const getQueryFn: <T>(options: {
       const queryString = params.toString();
       if (queryString) {
         finalUrl = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
-        console.log(`QUERY CLIENT: Created query string: ${queryString}`);
-      } else {
-        console.log("QUERY CLIENT: No valid query parameters found");
+        console.log(`Making request to: ${finalUrl}`);
       }
     }
-    
-    console.log("QUERY CLIENT: Final URL:", finalUrl);
     
     const res = await fetch(finalUrl, {
       credentials: "include",

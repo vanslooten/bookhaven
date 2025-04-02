@@ -472,6 +472,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Error fetching genres" });
     }
   });
+  
+  // Add a dedicated search endpoint to use directly
+  app.get("/api/search", async (req, res) => {
+    try {
+      const { query } = req.query;
+      
+      if (!query || typeof query !== 'string') {
+        return res.status(400).json({ message: "Search query is required" });
+      }
+      
+      console.log("Direct search endpoint called with query:", query);
+      
+      const books = await storage.searchBooks(query);
+      console.log(`Found ${books.length} books matching direct search query`);
+      
+      res.json(books);
+    } catch (error) {
+      console.error("Error in direct search:", error);
+      res.status(500).json({ message: "Error searching books" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

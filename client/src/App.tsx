@@ -1,4 +1,4 @@
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -20,20 +20,13 @@ function Router() {
     retry: false,
     refetchOnWindowFocus: true,
   });
-  
-  // Create a component that can handle search params
-  const HomeWithParams = () => {
-    const [location] = useLocation();
-    console.log("APP ROUTER: Full location with search params:", location);
-    return <Home />;
-  };
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header user={user} isLoading={isLoading} />
       
       <Switch>
-        <Route path="/" component={HomeWithParams} />
+        <Route path="/" component={Home} />
         <Route path="/books/:id" component={BookDetails} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/login" component={Login} />

@@ -20,17 +20,11 @@ export const SearchBar = ({ className, initialValue = "" }: SearchBarProps) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log("Search submitted:", searchQuery);
     
     if (searchQuery.trim()) {
       const searchTerm = encodeURIComponent(searchQuery.trim());
-      // Explicitly log the exact URL we're navigating to
-      const url = `/?search=${searchTerm}`;
-      console.log("SEARCH: Navigating to URL:", url);
-      // Navigate to the search URL
-      navigate(url);
+      navigate(`/?search=${searchTerm}`);
     } else {
-      console.log("SEARCH: Empty search, navigating to home");
       // If search is empty, go to home without any parameters
       navigate("/");
     }
