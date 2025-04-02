@@ -41,6 +41,7 @@ export default function Home() {
       
       if (filters.search) {
         params.append('search', filters.search);
+        console.log("Searching for:", filters.search);
       }
       
       if (filters.genre) {
@@ -51,7 +52,16 @@ export default function Home() {
         url += `?${params.toString()}`;
       }
       
-      return fetch(url, { credentials: 'include' }).then(res => res.json());
+      console.log("Fetching URL:", url);
+      return fetch(url, { credentials: 'include' })
+        .then(res => {
+          console.log("Response status:", res.status);
+          return res.json();
+        })
+        .then(data => {
+          console.log("Received data:", data);
+          return data;
+        });
     },
   });
 
@@ -76,7 +86,9 @@ export default function Home() {
     } else if (filters.sort === "title_desc") {
       return b.title.localeCompare(a.title);
     } else if (filters.sort === "rating") {
-      return b.rating - a.rating;
+      const ratingA = typeof a.rating === 'number' ? a.rating : 0;
+      const ratingB = typeof b.rating === 'number' ? b.rating : 0;
+      return ratingB - ratingA;
     } else {
       // Default: recently added (using id as a proxy)
       return b.id - a.id;
