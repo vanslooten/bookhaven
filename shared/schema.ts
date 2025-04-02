@@ -1,4 +1,5 @@
 import { pgTable, text, serial, integer, boolean, date, timestamp } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -88,6 +89,47 @@ export const insertReviewSchema = createInsertSchema(reviews).pick({
   rating: true,
   comment: true,
   createdAt: true,
+});
+
+// Define relations
+export const usersRelations = relations(users, ({ many }) => {
+  return {
+    borrowings: many(borrowings),
+    reviews: many(reviews)
+  };
+});
+
+export const booksRelations = relations(books, ({ many }) => {
+  return {
+    borrowings: many(borrowings),
+    reviews: many(reviews)
+  };
+});
+
+export const borrowingsRelations = relations(borrowings, ({ one }) => {
+  return {
+    user: one(users, {
+      fields: [borrowings.userId],
+      references: [users.id]
+    }),
+    book: one(books, {
+      fields: [borrowings.bookId],
+      references: [books.id]
+    })
+  };
+});
+
+export const reviewsRelations = relations(reviews, ({ one }) => {
+  return {
+    user: one(users, {
+      fields: [reviews.userId],
+      references: [users.id]
+    }),
+    book: one(books, {
+      fields: [reviews.bookId],
+      references: [books.id]
+    })
+  };
 });
 
 // Export types
