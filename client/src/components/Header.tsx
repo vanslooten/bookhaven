@@ -25,8 +25,11 @@ export const Header = ({ user, isLoading }: HeaderProps) => {
   
   // Get current search query from URL for SearchBar
   const getCurrentSearchQuery = () => {
-    const params = new URLSearchParams(location.split("?")[1] || "");
-    return params.get("search") || "";
+    if (!location.includes('?')) return "";
+    const params = new URLSearchParams(location.split("?")[1]);
+    const search = params.get("search");
+    console.log("Header detected search parameter:", search);
+    return search || "";
   };
   
   // Get borrowed books count

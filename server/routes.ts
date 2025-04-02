@@ -174,18 +174,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/books", async (req, res) => {
     try {
       const { search, genre } = req.query;
+      
+      // Add debugging to trace the search request
+      console.log("API books request received with params:", { search, genre });
+      
       let books;
       
       if (search && typeof search === 'string') {
+        console.log("Searching for books with query:", search);
         books = await storage.searchBooks(search);
+        console.log(`Found ${books.length} books matching search query`);
       } else if (genre && typeof genre === 'string') {
+        console.log("Filtering books by genre:", genre);
         books = await storage.getBooksByGenre(genre);
+        console.log(`Found ${books.length} books in genre`);
       } else {
+        console.log("Getting all books (no search or genre filter)");
         books = await storage.getBooks();
+        console.log(`Returning ${books.length} total books`);
       }
       
       res.json(books);
     } catch (error) {
+      console.error("Error fetching books:", error);
       res.status(500).json({ message: "Error fetching books" });
     }
   });

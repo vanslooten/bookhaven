@@ -21,14 +21,13 @@ export const SearchBar = ({ className, initialValue = "" }: SearchBarProps) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log("Search submitted:", searchQuery);
+    
     if (searchQuery.trim()) {
       const searchTerm = encodeURIComponent(searchQuery.trim());
-      console.log("Navigating to:", `/?search=${searchTerm}`);
-      // Force navigate with different URL even when searching for the same term
-      const timestamp = Date.now();
-      navigate(`/?search=${searchTerm}&ts=${timestamp}`);
+      // Use simple URL without timestamp to avoid cluttering browser history
+      navigate(`/?search=${searchTerm}`);
     } else {
-      console.log("Empty search, navigating to home");
+      // If search is empty, go to home without any parameters
       navigate("/");
     }
   };

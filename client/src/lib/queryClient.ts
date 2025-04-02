@@ -29,7 +29,29 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
+    const url = queryKey[0] as string;
+    const queryParams = queryKey[1] as Record<string, any> | undefined;
+    
+    let finalUrl = url;
+    
+    // Handle query parameters if provided
+    if (queryParams) {
+      const params = new URLSearchParams();
+      for (const [key, value] of Object.entries(queryParams)) {
+        if (value !== undefined && value !== null && value !== '') {
+          params.append(key, value.toString());
+        }
+      }
+      
+      const queryString = params.toString();
+      if (queryString) {
+        finalUrl = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
+      }
+    }
+    
+    console.log("QueryClient fetching:", finalUrl);
+    
+    const res = await fetch(finalUrl, {
       credentials: "include",
     });
 
@@ -47,7 +69,7 @@ export const queryClient = new QueryClient({
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
       refetchOnWindowFocus: false,
-      staleTime: Infinity,
+      staleTime: 0, // Important: allow refetching when query parameters change
       retry: false,
     },
     mutations: {
