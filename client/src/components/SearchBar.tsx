@@ -24,7 +24,9 @@ export const SearchBar = ({ className, initialValue = "" }: SearchBarProps) => {
     if (searchQuery.trim()) {
       const searchTerm = encodeURIComponent(searchQuery.trim());
       console.log("Navigating to:", `/?search=${searchTerm}`);
-      navigate(`/?search=${searchTerm}`);
+      // Force navigate with different URL even when searching for the same term
+      const timestamp = Date.now();
+      navigate(`/?search=${searchTerm}&ts=${timestamp}`);
     } else {
       console.log("Empty search, navigating to home");
       navigate("/");

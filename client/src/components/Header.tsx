@@ -17,11 +17,17 @@ interface HeaderProps {
 }
 
 export const Header = ({ user, isLoading }: HeaderProps) => {
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [borrowedCount, setBorrowedCount] = useState(0);
+  
+  // Get current search query from URL for SearchBar
+  const getCurrentSearchQuery = () => {
+    const params = new URLSearchParams(location.split("?")[1] || "");
+    return params.get("search") || "";
+  };
   
   // Get borrowed books count
   useEffect(() => {
@@ -83,7 +89,7 @@ export const Header = ({ user, isLoading }: HeaderProps) => {
           </div>
         </div>
         
-        {!isMobile && <SearchBar className="flex-1 mx-10" />}
+        {!isMobile && <SearchBar className="flex-1 mx-10" initialValue={getCurrentSearchQuery()} />}
         
         <div className="flex items-center">
           {isLoading ? (
@@ -164,7 +170,7 @@ export const Header = ({ user, isLoading }: HeaderProps) => {
       {/* Mobile search bar */}
       {isMobile && (
         <div className="px-4 py-2">
-          <SearchBar />
+          <SearchBar initialValue={getCurrentSearchQuery()} />
         </div>
       )}
     </header>

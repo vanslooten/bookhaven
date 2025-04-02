@@ -23,19 +23,26 @@ export default function Home() {
 
   // Extract search query from URL
   useEffect(() => {
-    const params = new URLSearchParams(location.split("?")[1]);
+    const params = new URLSearchParams(location.split("?")[1] || "");
     const searchQuery = params.get("search") || "";
+    console.log("URL location:", location);
+    console.log("Extracted search query:", searchQuery);
     
-    setFilters(prev => ({
-      ...prev,
-      search: searchQuery,
-    }));
+    // Only update if the search query has actually changed
+    setFilters(prev => {
+      if (prev.search === searchQuery) return prev;
+      return {
+        ...prev,
+        search: searchQuery,
+      };
+    });
   }, [location]);
 
   // Fetch books
   const { data: books = [], isLoading } = useQuery<Book[]>({
     queryKey: ['/api/books', filters],
     queryFn: async () => {
+      // Create URL with search parameters
       let url = '/api/books';
       const params = new URLSearchParams();
       
@@ -53,16 +60,22 @@ export default function Home() {
       }
       
       console.log("Fetching URL:", url);
-      return fetch(url, { credentials: 'include' })
-        .then(res => {
-          console.log("Response status:", res.status);
-          return res.json();
-        })
-        .then(data => {
-          console.log("Received data:", data);
-          return data;
-        });
+      
+      // Make the API request
+      const response = await fetch(url, { credentials: 'include' });
+      console.log("Response status:", response.status);
+      
+      if (!response.ok) {
+        console.error("Error response:", response.statusText);
+        throw new Error(`API request failed: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log("Received data:", data);
+      return data;
     },
+    // Re-fetch when filters change
+    refetchOnWindowFocus: false,
   });
 
   // Check if user is logged in
