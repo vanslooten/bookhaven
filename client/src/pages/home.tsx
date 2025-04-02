@@ -23,16 +23,29 @@ export default function Home() {
 
   // Extract search query from URL
   useEffect(() => {
-    console.log("URL location changed:", location);
-    const params = new URLSearchParams(location.includes("?") ? location.split("?")[1] : "");
-    const searchQuery = params.get("search") || "";
-    console.log("Extracted search query:", searchQuery);
+    console.log("HOME: URL location changed:", location);
     
-    // Always update filters to trigger a refetch
-    setFilters(prev => ({
-      ...prev,
-      search: searchQuery,
-    }));
+    // Handle URL params
+    let searchQuery = "";
+    if (location.includes("?")) {
+      const queryPart = location.split("?")[1];
+      console.log("HOME: URL query part:", queryPart);
+      
+      const params = new URLSearchParams(queryPart);
+      searchQuery = params.get("search") || "";
+      console.log("HOME: Extracted search query:", searchQuery);
+    }
+    
+    // ALWAYS update filters to trigger a refetch (even if it's the same value)
+    console.log("HOME: Setting search filter to:", searchQuery);
+    setFilters(prev => {
+      const newFilters = {
+        ...prev,
+        search: searchQuery,
+      };
+      console.log("HOME: New filters:", newFilters);
+      return newFilters;
+    });
   }, [location]);
 
   // Fetch books

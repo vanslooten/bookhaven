@@ -24,9 +24,13 @@ export const SearchBar = ({ className, initialValue = "" }: SearchBarProps) => {
     
     if (searchQuery.trim()) {
       const searchTerm = encodeURIComponent(searchQuery.trim());
-      // Use simple URL without timestamp to avoid cluttering browser history
-      navigate(`/?search=${searchTerm}`);
+      // Explicitly log the exact URL we're navigating to
+      const url = `/?search=${searchTerm}`;
+      console.log("SEARCH: Navigating to URL:", url);
+      // Navigate to the search URL
+      navigate(url);
     } else {
+      console.log("SEARCH: Empty search, navigating to home");
       // If search is empty, go to home without any parameters
       navigate("/");
     }
