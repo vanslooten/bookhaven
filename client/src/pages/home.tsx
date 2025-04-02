@@ -21,31 +21,39 @@ export default function Home() {
     itemsPerPage: 10,
   });
 
-  // Extract search query from URL
+  // Extract search query from full URL
   useEffect(() => {
     console.log("HOME: URL location changed:", location);
     
-    // Handle URL params
-    let searchQuery = "";
-    if (location.includes("?")) {
-      const queryPart = location.split("?")[1];
-      console.log("HOME: URL query part:", queryPart);
+    try {
+      // Simple string handling of search params from the entire URL
+      let searchQuery = "";
       
-      const params = new URLSearchParams(queryPart);
-      searchQuery = params.get("search") || "";
-      console.log("HOME: Extracted search query:", searchQuery);
+      // Handle if we have any search parameters
+      if (location.includes("?")) {
+        const queryPart = location.split("?")[1];
+        console.log("HOME: URL query part:", queryPart);
+        
+        // Parse search query directly with URLSearchParams
+        const params = new URLSearchParams(queryPart);
+        searchQuery = params.get("search") || "";
+        console.log("HOME: Extracted search query:", searchQuery);
+      }
+      
+      // IMPORTANT: Always update filters to trigger a refetch
+      // We need to update filters even when searchQuery is empty (to clear previous searches)
+      console.log("HOME: Setting search filter to:", searchQuery);
+      setFilters(prev => {
+        const newFilters = {
+          ...prev,
+          search: searchQuery,
+        };
+        console.log("HOME: New filters:", newFilters);
+        return newFilters;
+      });
+    } catch (error) {
+      console.error("HOME: Error parsing search params:", error);
     }
-    
-    // ALWAYS update filters to trigger a refetch (even if it's the same value)
-    console.log("HOME: Setting search filter to:", searchQuery);
-    setFilters(prev => {
-      const newFilters = {
-        ...prev,
-        search: searchQuery,
-      };
-      console.log("HOME: New filters:", newFilters);
-      return newFilters;
-    });
   }, [location]);
 
   // Fetch books
